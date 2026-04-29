@@ -392,15 +392,15 @@ curl -X POST http://localhost:8000/decision \
 
 ```mermaid
 flowchart LR
-    A[👤 Guest submits message] --> B{🤖 AI Analysis}
-    B -->|Score > 60| C[🚨 Alert Created]
-    B -->|Score ≤ 60| D[✅ No Alert]
-    C --> E[📊 Dashboard Updates]
-    C --> F[🤖 AI Generates 3 Actions]
-    C --> G[🔊 Voice Alert Speaks]
-    C --> H[🗺️ Map Marker Added]
-    E --> I[👮 Staff: ACK → RESPOND → RESOLVE]
-    I --> J[📝 Timeline Logged]
+    A["Guest submits message"] --> B{"AI Analysis"}
+    B -->|"Score above 60"| C["Alert Created"]
+    B -->|"Score 60 or below"| D["No Alert"]
+    C --> E["Dashboard Updates"]
+    C --> F["AI Generates 3 Actions"]
+    C --> G["Voice Alert Speaks"]
+    C --> H["Map Marker Added"]
+    E --> I["Staff: ACK - RESPOND - RESOLVE"]
+    I --> J["Timeline Logged"]
 ```
 
 ---
