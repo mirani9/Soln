@@ -1,6 +1,10 @@
 """
 SENTINEL — Firebase Admin Client
 Handles all Firebase Realtime Database operations.
+
+Environment Variables (optional):
+  FIREBASE_SERVICE_ACCOUNT_PATH — Path to service account JSON
+  FIREBASE_DATABASE_URL — Override the Realtime Database URL
 """
 
 import json
@@ -8,6 +12,10 @@ import logging
 import os
 from datetime import datetime
 from typing import Optional, Dict, Any
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 logger = logging.getLogger("sentinel.firebase")
 
@@ -19,8 +27,11 @@ try:
     import firebase_admin
     from firebase_admin import credentials, db as firebase_db
 
-    # Try to initialize Firebase Admin
-    service_account_path = os.path.join(os.path.dirname(__file__), "serviceAccountKey.json")
+    # Support env var override for service account path
+    service_account_path = os.getenv(
+        "FIREBASE_SERVICE_ACCOUNT_PATH",
+        os.path.join(os.path.dirname(__file__), "serviceAccountKey.json"),
+    )
 
     if os.path.exists(service_account_path):
         cred = credentials.Certificate(service_account_path)
@@ -28,10 +39,13 @@ try:
         with open(service_account_path, "r") as f:
             sa_data = json.load(f)
         project_id = sa_data.get("project_id", "sentinel-crisis")
-        
-        firebase_admin.initialize_app(cred, {
-            "databaseURL": f"https://{project_id}-default-rtdb.firebaseio.com"
-        })
+
+        database_url = os.getenv(
+            "FIREBASE_DATABASE_URL",
+            f"https://{project_id}-default-rtdb.firebaseio.com",
+        )
+
+        firebase_admin.initialize_app(cred, {"databaseURL": database_url})
         db = firebase_db
         firebase_initialized = True
         logger.info("Firebase Admin initialized successfully")

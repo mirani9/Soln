@@ -2,10 +2,15 @@
 SENTINEL — Ollama LLM Client
 Handles all AI inference via local Ollama server.
 Includes smart fallback when Ollama is not available.
+
+Environment Variables (optional):
+  OLLAMA_URL — Override the Ollama API endpoint
+  OLLAMA_MODEL — Override the LLM model name
 """
 
 import httpx
 import json
+import os
 import re
 import logging
 from typing import Optional, Dict, Any, List
@@ -13,8 +18,8 @@ from collections import deque
 
 logger = logging.getLogger("sentinel.ollama")
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL = "llama3"
+OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434/api/generate")
+MODEL = os.getenv("OLLAMA_MODEL", "llama3")
 
 # Context memory — stores last 3 alerts for AI context
 context_memory: deque = deque(maxlen=3)

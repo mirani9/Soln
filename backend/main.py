@@ -4,13 +4,17 @@ AI Crisis Intelligence & Autonomous Response System
 """
 
 import logging
+import os
 import time
 from datetime import datetime
 from typing import Optional
 
 from contextlib import asynccontextmanager
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+
+load_dotenv()
 
 from models import (
     TextAnalysisRequest, TextAnalysisResponse,
@@ -51,10 +55,11 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# CORS — allow frontend
+# CORS — allow frontend (configurable via CORS_ORIGINS env var)
+cors_origins = os.getenv("CORS_ORIGINS", "*").split(",")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=cors_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
