@@ -221,19 +221,7 @@ npm install
 npm run dev
 ```
 
-Frontend starts at `http://localhost:5173`
 
-### 5️⃣ Open in Browser
-
-| Page | URL | Description |
-|:-----|:----|:------------|
-| 🆘 **Guest Portal** | http://localhost:5173/guest | Public emergency report form |
-| 🛡️ **Staff Dashboard** | http://localhost:5173/dashboard | Real-time command center |
-| 📹 **Camera Page** | http://localhost:5173/camera | Pose detection monitoring |
-| 📋 **Incident Log** | http://localhost:5173/incidents | Full timeline history |
-| 🔐 **Login** | http://localhost:5173/login | Staff authentication |
-
----
 
 ## 🔧 Optional Setup
 
